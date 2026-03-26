@@ -1,4 +1,4 @@
-# CMS Modular com Laravel 12
+# Base Modular com Laravel 12
 
 Aplicacao Laravel 12 organizada em modulos com `nwidart/laravel-modules`, frontend centralizado com Vite/Tailwind e navegacao da area administrativa baseada em Turbo.
 
