@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+
+@config "../../tailwind.config.js";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../../Modules/**/resources/views/**/*.blade.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer components {
+    .ui-tw-table-row:hover > td {
+        background-color: var(--panel-table-row-hover);
+    }
+
+    .ui-tw-table-row[data-selected='true'] > td {
+        background-color: var(--panel-table-row-selected);
+    }
+
+    .ui-form-control {
+        background-color: var(--panel-form-bg);
+        border: 1px solid var(--panel-form-border);
+        color: var(--panel-form-text);
+    }
+
+    .ui-form-control::placeholder {
+        color: var(--panel-form-placeholder-text);
+    }
+
+    .ui-form-control:focus,
+    .ui-form-control:focus-visible {
+        border-color: var(--panel-form-focus-border);
+        box-shadow: 0 0 0 2px var(--panel-form-focus-ring);
+        outline: none;
+    }
+
+    .ui-form-label {
+        color: var(--panel-form-label-text);
+    }
+
+    .ui-form-checkbox {
+        accent-color: var(--panel-form-checkbox-checked);
+        background-color: var(--panel-form-checkbox-bg);
+        border-color: var(--panel-form-checkbox-border);
+    }
+
+    .ui-form-checkbox:focus,
+    .ui-form-checkbox:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--panel-form-checkbox-focus-ring);
+    }
+}

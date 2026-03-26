@@ -1,0 +1,12 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use App\Support\Modules\ModuleServiceProvider;
+
+class $CLASS$ extends ModuleServiceProvider
+{
+    protected string $moduleName = '$MODULE$';
+
+    protected string $moduleNameLower = '$LOWER_NAME$';
+}

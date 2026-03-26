@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/novo",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Novo\\": "app/",
+            "Modules\\Novo\\Database\\Factories\\": "database/factories/",
+            "Modules\\Novo\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Novo\\Tests\\": "tests/"
+        }
+    }
+}

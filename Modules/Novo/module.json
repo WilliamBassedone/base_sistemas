@@ -1,0 +1,11 @@
+{
+    "name": "Novo",
+    "alias": "novo",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Novo\\Providers\\NovoServiceProvider"
+    ],
+    "files": []
+}
