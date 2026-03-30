@@ -5,9 +5,12 @@
     'rows' => [],
     'pagination' => null,
     'editRoute' => null,
+    'showRoute' => null,
     'createRoute' => null,
     'createLabel' => 'Novo Registro',
     'searchPlaceholder' => 'Pesquisar na tabela',
+    'actionsWidth' => '130px',
+    'rowActions' => null,
     'bulkActions' => [
         'activate' => 'Ativar selecionados',
         'deactivate' => 'Inativar selecionados',
@@ -15,10 +18,6 @@
     ],
     'emptyMessage' => 'Nenhum registro encontrado.',
 ])
-
-@pushOnce('scripts')
-    @vite('Modules/UI/resources/assets/components/data-table-tw.js')
-@endPushOnce
 
 @php
     $statusClasses = [
@@ -30,14 +29,52 @@
 
     $bulkSelectId = 'ui-tw-bulk-' . \Illuminate\Support\Str::uuid();
     $searchId = 'ui-tw-search-' . \Illuminate\Support\Str::uuid();
+    $defaultRowActions = [
+        [
+            'type' => 'link',
+            'kind' => 'edit',
+            'icon' => 'fa-solid fa-pen',
+            'title' => 'Editar',
+            'classes' =>
+                'tw:border tw:border-[var(--panel-button-soft-border)] tw:bg-[var(--panel-button-soft-bg)] tw:text-[var(--panel-button-soft-text)] hover:tw:bg-[var(--panel-button-soft-hover-bg)]',
+        ],
+        [
+            'type' => 'button',
+            'kind' => 'toggle',
+            'icon' => 'fa-solid fa-power-off',
+            'title' => 'Ativar ou inativar',
+            'classes' =>
+                'tw:border tw:border-[var(--panel-button-soft-border)] tw:bg-[var(--panel-button-toggle-active-bg)] tw:text-[var(--panel-button-toggle-text)] hover:tw:bg-[var(--panel-button-toggle-active-hover-bg)]',
+            'attributes' => [
+                'data-ui-tw-status-state' => 'active',
+                'data-ui-tw-toggle-status' => true,
+            ],
+        ],
+        [
+            'type' => 'button',
+            'kind' => 'delete',
+            'icon' => 'fa-solid fa-trash',
+            'title' => 'Excluir',
+            'classes' =>
+                'tw:border tw:border-[var(--panel-button-danger-border)] tw:bg-[var(--panel-button-danger-bg)] tw:text-[var(--panel-button-danger-text)] hover:tw:bg-[var(--panel-button-danger-hover-bg)]',
+            'attributes' => [
+                'data-ui-tw-delete-row' => true,
+            ],
+        ],
+    ];
+    $resolvedRowActions = $rowActions ?? $defaultRowActions;
 @endphp
 
-<section class="tw:border tw:border-[var(--panel-table-container-border)] tw:bg-[var(--panel-table-surface)] tw:shadow-sm" data-ui-tw-table-manager>
+<section
+    class="tw:border tw:border-[var(--panel-table-container-border)] tw:bg-[var(--panel-table-surface)] tw:shadow-sm"
+    data-ui-tw-table-manager>
     @if ($title || $description || $createRoute)
-        <div class="tw:flex tw:flex-wrap tw:items-start tw:justify-between tw:gap-4 tw:border-b tw:border-[var(--panel-table-section-border)] tw:px-4 tw:py-4">
+        <div
+            class="tw:flex tw:flex-wrap tw:items-start tw:justify-between tw:gap-4 tw:border-b tw:border-[var(--panel-table-section-border)] tw:px-4 tw:py-4">
             <div>
                 @if ($title)
-                    <h2 class="tw:text-lg tw:font-semibold tw:text-[var(--panel-table-heading-text)]">{{ $title }}</h2>
+                    <h2 class="tw:text-lg tw:font-semibold tw:text-[var(--panel-table-heading-text)]">{{ $title }}
+                    </h2>
                 @endif
 
                 @if ($description)
@@ -46,24 +83,24 @@
             </div>
 
             @if ($createRoute)
-                <a href="{{ route($createRoute) }}"
-                    class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:bg-[var(--panel-button-primary-bg)] tw:px-4 tw:py-1.5 tw:text-sm tw:font-semibold tw:text-[var(--panel-button-primary-text)] hover:tw:bg-[var(--panel-button-primary-hover-bg)]"
-                    data-turbo-frame="main" data-turbo-action="advance">
+                <x-ui::button as="a" href="{{ route($createRoute) }}" variant="success" data-turbo-frame="main"
+                    data-turbo-action="advance">
                     {{ $createLabel }}
-                </a>
+                </x-ui::button>
             @endif
         </div>
     @endif
 
-    <div class="tw:border-b tw:border-[var(--panel-table-section-border)] tw:bg-[var(--panel-table-surface-muted)] tw:px-4 tw:py-3">
+    <div
+        class="tw:border-b tw:border-[var(--panel-table-section-border)] tw:bg-[var(--panel-table-surface-muted)] tw:px-4 tw:py-3">
         <div class="tw:grid tw:gap-4 lg:tw:grid-cols-[420px_minmax(0,1fr)]">
             <div class="tw:space-y-2">
-                <label for="{{ $searchId }}" class="ui-form-label tw:text-xs tw:font-semibold tw:uppercase tw:tracking-[0.08em]">
+                <label for="{{ $searchId }}"
+                    class="ui-form-label tw:text-xs tw:font-semibold tw:uppercase tw:tracking-[0.08em]">
                     Pesquisa
                 </label>
                 <input id="{{ $searchId }}" type="text" placeholder="{{ $searchPlaceholder }}"
-                    class="ui-form-control tw:w-full tw:px-3 tw:py-1.5 tw:text-sm"
-                    data-ui-tw-table-search>
+                    class="ui-form-control tw:w-full tw:px-3 tw:py-1.5 tw:text-sm" data-ui-tw-table-search>
             </div>
 
             <div class="tw:space-y-2">
@@ -76,22 +113,23 @@
         </div>
     </div>
 
-    <div class="tw:border-b tw:border-[var(--panel-table-section-border)] tw:bg-[var(--panel-table-surface)] tw:px-4 tw:py-3">
+    <div
+        class="tw:border-b tw:border-[var(--panel-table-section-border)] tw:bg-[var(--panel-table-surface)] tw:px-4 tw:py-3">
         <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3">
             <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-3">
-                <label for="{{ $bulkSelectId }}" class="tw:inline-flex tw:items-center tw:gap-2 tw:text-sm tw:font-medium tw:text-[var(--panel-table-body-text)]">
+                <label for="{{ $bulkSelectId }}"
+                    class="tw:inline-flex tw:items-center tw:gap-2 tw:text-sm tw:font-medium tw:text-[var(--panel-table-body-text)]">
                     <input id="{{ $bulkSelectId }}" type="checkbox"
-                        class="ui-form-checkbox tw:h-4 tw:w-4 tw:rounded-none"
-                        data-ui-tw-select-all-toggle>
+                        class="ui-form-checkbox tw:h-4 tw:w-4 tw:rounded-none" data-ui-tw-select-all-toggle>
                     <span>Selecionar todos da página</span>
                 </label>
 
-                <span class="tw:text-sm tw:font-medium tw:text-[var(--panel-table-muted-text)]" data-ui-tw-selected-count>0 selecionados</span>
+                <span class="tw:text-sm tw:font-medium tw:text-[var(--panel-table-muted-text)]"
+                    data-ui-tw-selected-count>0 selecionados</span>
             </div>
 
             <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-3">
-                <select
-                    class="ui-form-control tw:min-h-10 tw:min-w-[220px] tw:px-3 tw:text-sm tw:font-medium"
+                <select class="ui-form-control tw:min-h-10 tw:min-w-[220px] tw:px-3 tw:text-sm tw:font-medium"
                     data-ui-tw-bulk-action>
                     <option value="">Ações em massa</option>
                     @foreach ($bulkActions as $value => $label)
@@ -108,13 +146,13 @@
         </div>
     </div>
 
-    <div class="tw:relative tw:max-h-[480px] tw:overflow-auto tw:bg-[var(--panel-table-surface)]">
+    <div class="tw:relative tw:min-h-[480px] tw:max-h-[480px] tw:overflow-auto tw:bg-[var(--panel-table-surface)]">
         <table class="tw:min-w-full tw:border-collapse tw:text-sm">
             <thead class="tw:bg-[var(--panel-table-surface-soft)] tw:text-left tw:text-[var(--panel-table-head-text)]">
                 <tr>
-                    <th class="tw:sticky tw:top-0 tw:z-[2] tw:w-14 tw:border-r tw:border-b tw:border-l tw:border-[var(--panel-table-grid-border)] tw:bg-[var(--panel-table-surface-soft)] tw:px-4 tw:py-1.5 tw:text-center tw:font-medium">
-                        <input type="checkbox"
-                            class="ui-form-checkbox tw:h-4 tw:w-4 tw:rounded-none"
+                    <th
+                        class="tw:sticky tw:top-0 tw:z-[2] tw:w-14 tw:border-r tw:border-b tw:border-l tw:border-[var(--panel-table-grid-border)] tw:bg-[var(--panel-table-surface-soft)] tw:px-4 tw:py-1.5 tw:text-center tw:font-medium">
+                        <input type="checkbox" class="ui-form-checkbox tw:h-4 tw:w-4 tw:rounded-none"
                             data-ui-tw-select-all-table aria-label="Selecionar todos">
                     </th>
                     @foreach ($columns as $column)
@@ -123,16 +161,17 @@
                             {{ $column['label'] }}
                         </th>
                     @endforeach
-                    <th class="tw:sticky tw:top-0 tw:z-[2] tw:w-[130px] tw:border-r tw:border-b tw:border-[var(--panel-table-grid-border)] tw:bg-[var(--panel-table-surface-soft)] tw:px-4 tw:py-1.5 tw:text-center tw:font-medium">Ações</th>
+                    <th class="tw:sticky tw:top-0 tw:z-[2] tw:border-r tw:border-b tw:border-[var(--panel-table-grid-border)] tw:bg-[var(--panel-table-surface-soft)] tw:px-4 tw:py-1.5 tw:text-center tw:font-medium"
+                        style="width: {{ $actionsWidth }};">Ações</th>
                 </tr>
             </thead>
 
             <tbody class="tw:text-[var(--panel-table-body-text)]">
                 @forelse ($rows as $row)
                     <tr class="ui-tw-table-row" data-ui-tw-row>
-                        <td class="tw:border-l tw:border-r tw:border-b tw:border-[var(--panel-table-grid-border)] tw:px-4 tw:py-1 tw:text-center">
-                            <input type="checkbox"
-                                class="ui-form-checkbox tw:h-4 tw:w-4 tw:rounded-none"
+                        <td
+                            class="tw:border-l tw:border-r tw:border-b tw:border-[var(--panel-table-grid-border)] tw:px-4 tw:py-1 tw:text-center">
+                            <input type="checkbox" class="ui-form-checkbox tw:h-4 tw:w-4 tw:rounded-none"
                                 data-ui-tw-row-checkbox value="{{ $row['code'] ?? '' }}"
                                 aria-label="Selecionar {{ $row['name'] ?? 'registro' }}">
                         </td>
@@ -143,18 +182,28 @@
                                 $variant = $column['variant'] ?? 'text';
                             @endphp
 
-                            <td class="tw:border-r tw:border-b tw:border-[var(--panel-table-grid-border)] tw:px-4 tw:py-1">
+                            <td
+                                class="tw:border-r tw:border-b tw:border-[var(--panel-table-grid-border)] tw:px-4 tw:py-1">
                                 @if ($variant === 'badge' && is_array($value))
                                     @php
                                         $tone = $value['tone'] ?? 'neutral';
                                     @endphp
-                                    <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-1 tw:text-xs tw:font-medium {{ $statusClasses[$tone] ?? $statusClasses['neutral'] }}"
+                                    <span
+                                        class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-1 tw:text-xs tw:font-medium {{ $statusClasses[$tone] ?? $statusClasses['neutral'] }}"
                                         data-ui-tw-status-badge>
                                         {{ $value['label'] ?? '-' }}
                                     </span>
                                 @elseif ($variant === 'code')
-                                    <span class="tw:font-mono tw:text-xs tw:font-semibold tw:text-[var(--panel-table-input-focus-border)]">
+                                    <span
+                                        class="tw:font-mono tw:text-xs tw:font-semibold tw:text-[var(--panel-table-input-focus-border)]">
                                         {{ $value ?? '-' }}
+                                    </span>
+                                @elseif ($variant === 'reveal-code')
+                                    <span class="tw:font-mono tw:text-xs tw:font-semibold tw:text-[var(--panel-table-input-focus-border)]"
+                                        data-ui-tw-reveal-value
+                                        data-ui-tw-reveal-masked="{{ $row[$column['masked_key'] ?? $column['key']] ?? $value ?? '-' }}"
+                                        data-ui-tw-reveal-full="{{ $row[$column['full_key'] ?? $column['key']] ?? $value ?? '-' }}">
+                                        {{ $row[$column['masked_key'] ?? $column['key']] ?? $value ?? '-' }}
                                     </span>
                                 @else
                                     {{ $value ?? '-' }}
@@ -163,33 +212,63 @@
                         @endforeach
 
                         <td class="tw:border-r tw:border-b tw:border-[var(--panel-table-grid-border)] tw:px-4 tw:py-1">
-                            <div class="tw:flex tw:flex-wrap tw:justify-center tw:gap-2">
-                                @if ($editRoute)
-                                    <a href="{{ route($editRoute) }}"
-                                        class="tw:inline-flex tw:h-9 tw:w-9 tw:items-center tw:justify-center tw:border tw:border-[var(--panel-button-soft-border)] tw:bg-[var(--panel-button-soft-bg)] tw:text-[var(--panel-button-soft-text)] hover:tw:bg-[var(--panel-button-soft-hover-bg)]"
-                                        data-turbo-frame="main" data-turbo-action="advance">
-                                        <i class="fa-solid fa-pen tw:text-xs"></i>
-                                    </a>
-                                @endif
+                            <div class="tw:flex tw:flex-nowrap tw:justify-center tw:gap-2">
+                                @foreach ($resolvedRowActions as $action)
+                                    @php
+                                        $actionType = $action['type'] ?? 'button';
+                                        $actionKind = $action['kind'] ?? null;
+                                        $actionClasses = trim(
+                                            'tw:inline-flex tw:h-9 tw:w-9 tw:shrink-0 tw:items-center tw:justify-center ' .
+                                                ($action['classes'] ?? ''),
+                                        );
+                                        $actionTitle = $action['title'] ?? 'Ação';
+                                        $actionIcon = $action['icon'] ?? 'fa-solid fa-circle';
+                                        $actionAttributes = $action['attributes'] ?? [];
+                                    @endphp
 
-                                <button type="button"
-                                    class="tw:inline-flex tw:h-9 tw:w-9 tw:items-center tw:justify-center tw:border tw:border-[var(--panel-button-soft-border)] tw:bg-[var(--panel-button-toggle-active-bg)] tw:text-[var(--panel-button-toggle-text)] hover:tw:bg-[var(--panel-button-toggle-active-hover-bg)]"
-                                    data-ui-tw-status-state="active"
-                                    data-ui-tw-toggle-status>
-                                    <i class="fa-solid fa-power-off tw:text-xs"></i>
-                                </button>
+                                    @if ($actionType === 'link')
+                                        @php
+                                            $href = $action['href'] ?? null;
+                                            if ($actionKind === 'edit') {
+                                                $href =
+                                                    $row['edit_url'] ??
+                                                    ($editRoute ? route($editRoute, $row['code'] ?? null) : null);
+                                            } elseif ($actionKind === 'show') {
+                                                $href =
+                                                    $row['show_url'] ??
+                                                    ($showRoute ? route($showRoute, $row['code'] ?? null) : null);
+                                            }
+                                        @endphp
 
-                                <button type="button"
-                                    class="tw:inline-flex tw:h-9 tw:w-9 tw:items-center tw:justify-center tw:border tw:border-[var(--panel-button-danger-border)] tw:bg-[var(--panel-button-danger-bg)] tw:text-[var(--panel-button-danger-text)] hover:tw:bg-[var(--panel-button-danger-hover-bg)]"
-                                    data-ui-tw-delete-row>
-                                    <i class="fa-solid fa-trash tw:text-xs"></i>
-                                </button>
+                                        @if ($href)
+                                            <a href="{{ $href }}" class="{{ $actionClasses }}"
+                                                data-turbo-frame="main" data-turbo-action="advance"
+                                                aria-label="{{ $actionTitle }}" title="{{ $actionTitle }}">
+                                                <i class="{{ $actionIcon }} tw:text-xs"></i>
+                                            </a>
+                                        @endif
+                                    @else
+                                        <button type="button" class="{{ $actionClasses }}"
+                                            aria-label="{{ $actionTitle }}" title="{{ $actionTitle }}"
+                                            @foreach ($actionAttributes as $attributeName => $attributeValue)
+                                                @if (is_bool($attributeValue))
+                                                    @if ($attributeValue)
+                                                        {{ $attributeName }}
+                                                    @endif
+                                                @else
+                                                    {{ $attributeName }}="{{ $attributeValue }}"
+                                                @endif @endforeach>
+                                            <i class="{{ $actionIcon }} tw:text-xs"></i>
+                                        </button>
+                                    @endif
+                                @endforeach
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="{{ count($columns) + 2 }}" class="tw:px-4 tw:py-8 tw:text-center tw:text-sm tw:text-[var(--panel-table-muted-text)]">
+                        <td colspan="{{ count($columns) + 2 }}"
+                            class="tw:px-4 tw:py-8 tw:text-center tw:text-sm tw:text-[var(--panel-table-muted-text)]">
                             {{ $emptyMessage }}
                         </td>
                     </tr>
@@ -199,9 +278,11 @@
     </div>
 
     @if ($pagination)
-        <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-4 tw:border-t tw:border-[var(--panel-table-section-border)] tw:bg-[var(--panel-table-surface-muted)] tw:px-4 tw:py-4">
+        <div
+            class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-4 tw:border-t tw:border-[var(--panel-table-section-border)] tw:bg-[var(--panel-table-surface-muted)] tw:px-4 tw:py-4">
             <div class="tw:text-sm tw:text-[var(--panel-table-muted-text)]">
-                Exibindo {{ $pagination->firstItem() ?? 0 }} a {{ $pagination->lastItem() ?? 0 }} de {{ $pagination->total() }} registros
+                Exibindo {{ $pagination->firstItem() ?? 0 }} a {{ $pagination->lastItem() ?? 0 }} de
+                {{ $pagination->total() }} registros
             </div>
 
             @if ($pagination->lastPage() > 1)

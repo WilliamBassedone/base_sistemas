@@ -61,6 +61,8 @@
                     --panel-table-input-focus-border: {{ $theme['table']['input_focus_border'] }};
                     --panel-table-row-hover: {{ $theme['table']['row_hover'] }};
                     --panel-table-row-selected: {{ $theme['table']['row_selected'] }};
+                    --panel-table-row-even: {{ $theme['table']['row_even'] }};
+                    --panel-table-row-odd: {{ $theme['table']['row_odd'] }};
                     --panel-table-pagination-active-bg: {{ $theme['table']['pagination_active_bg'] }};
                     --panel-table-pagination-active-border: {{ $theme['table']['pagination_active_border'] }};
                     --panel-table-pagination-active-text: {{ $theme['table']['pagination_active_text'] }};
@@ -102,6 +104,10 @@
                     --panel-button-danger-hover-bg: {{ $theme['button']['danger_hover_bg'] }};
                     --panel-button-danger-border: {{ $theme['button']['danger_border'] }};
                     --panel-button-danger-text: {{ $theme['button']['danger_text'] }};
+
+                    --panel-scrollbar-track: {{ $theme['scrollbar']['track'] }};
+                    --panel-scrollbar-thumb: {{ $theme['scrollbar']['thumb'] }};
+                    --panel-scrollbar-thumb-hover: {{ $theme['scrollbar']['thumb_hover'] }};
                 }
 
             </style>

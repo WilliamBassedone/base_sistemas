@@ -12,6 +12,8 @@ class ModuleRegistrationTest extends TestCase
         $this->get('/dashboard')->assertOk();
         $this->get('/configuracoes')->assertOk();
         $this->get('/configuracoes/grupos')->assertOk();
+        $this->get('/configuracoes/empresas')->assertOk();
+        $this->get('/configuracoes/tokens')->assertOk();
         $this->get('/blog/turbo')->assertOk();
         $this->get('/novo/turbo')->assertOk();
     }
@@ -21,6 +23,8 @@ class ModuleRegistrationTest extends TestCase
         $this->assertTrue(Route::has('dashboard'));
         $this->assertTrue(Route::has('api.panel.index'));
         $this->assertTrue(Route::has('groups.index'));
+        $this->assertTrue(Route::has('companies.index'));
+        $this->assertTrue(Route::has('tokens.index'));
         $this->assertTrue(Route::has('blog.turbo'));
         $this->assertTrue(Route::has('novo.turbo'));
         $this->assertTrue(Route::has('blog.index'));

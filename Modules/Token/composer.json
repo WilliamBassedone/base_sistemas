@@ -1,0 +1,28 @@
+{
+    "name": "nwidart/token",
+    "description": "",
+    "authors": [
+        {
+            "name": "",
+            "email": ""
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Token\\": "app/",
+            "Modules\\Token\\Database\\Factories\\": "database/factories/",
+            "Modules\\Token\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Token\\Tests\\": "tests/"
+        }
+    }
+}

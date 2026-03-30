@@ -9,5 +9,8 @@
     "Catalog": true,
     "Inventory": true,
     "Content": true,
-    "Development": true
+    "Development": true,
+    "User": true,
+    "Company": true,
+    "Token": true
 }

@@ -25,16 +25,22 @@ return [
             'icon' => 'fa-solid fa-gear',
             'children' => [
                 [
-                    'label' => 'Níveis',
-                    'route' => 'levels.index',
-                    'icon' => 'fa-solid fa-layer-group',
-                ],
-                [
                     'label' => 'Menus',
                     'route' => null,
                     'url' => '#',
                     'icon' => 'fa-solid fa-bars',
                 ],
+                [
+                    'label' => 'Empresas',
+                    'route' => 'companies.index',
+                    'icon' => 'fa-solid fa-building',
+                ],
+                // [
+                //     'label' => 'Níveis',
+                //     'route' => 'levels.index',
+                //     'icon' => 'fa-solid fa-layer-group',
+                // ],
+                
                 [
                     'label' => 'Grupos',
                     'route' => 'groups.index',
@@ -42,8 +48,13 @@ return [
                 ],
                 [
                     'label' => 'Usuários',
-                    'route' => 'dashboard',
+                    'route' => 'users.index',
                     'icon' => 'fa-solid fa-user',
+                ],
+                                [
+                    'label' => 'API Tokens',
+                    'route' => 'tokens.index',
+                    'icon' => 'fa-solid fa-key',
                 ],
             ],
         ],

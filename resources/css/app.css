@@ -13,6 +13,36 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+@layer base {
+    * {
+        scrollbar-color: var(--panel-scrollbar-thumb) var(--panel-scrollbar-track);
+        scrollbar-width: thin;
+    }
+
+    *::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: var(--panel-scrollbar-track);
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background: var(--panel-scrollbar-thumb);
+        border: 2px solid var(--panel-scrollbar-track);
+        border-radius: 0;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+        background: var(--panel-scrollbar-thumb-hover);
+    }
+
+    *::-webkit-scrollbar-corner {
+        background: var(--panel-scrollbar-track);
+    }
+}
+
 @layer components {
     .ui-tw-table-row:hover > td {
         background-color: var(--panel-table-row-hover);
@@ -53,5 +83,15 @@
     .ui-form-checkbox:focus-visible {
         outline: none;
         box-shadow: 0 0 0 2px var(--panel-form-checkbox-focus-ring);
+    }
+
+    input[data-ui-password-input]::-ms-reveal,
+    input[data-ui-password-input]::-ms-clear {
+        display: none;
+    }
+
+    input[data-ui-password-input]::-webkit-credentials-auto-fill-button,
+    input[data-ui-password-input]::-webkit-textfield-decoration-container {
+        display: none;
     }
 }

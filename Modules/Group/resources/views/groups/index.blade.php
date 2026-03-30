@@ -15,7 +15,7 @@
 
         <x-ui::data-table-tw title="Listagem de Grupos" description="Dados fictícios para iniciar o layout." :columns="$table['columns']"
             :rows="$table['rows']" :pagination="$pagination" create-route="groups.create" create-label="Novo Grupo"
-            edit-route="components.builder" />
+            edit-route="groups.edit" />
 
     </div>
 @endsection
