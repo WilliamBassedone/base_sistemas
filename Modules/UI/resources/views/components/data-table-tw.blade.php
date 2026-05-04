@@ -199,11 +199,12 @@
                                         {{ $value ?? '-' }}
                                     </span>
                                 @elseif ($variant === 'reveal-code')
-                                    <span class="tw:font-mono tw:text-xs tw:font-semibold tw:text-[var(--panel-table-input-focus-border)]"
+                                    <span
+                                        class="tw:font-mono tw:text-xs tw:font-semibold tw:text-[var(--panel-table-input-focus-border)]"
                                         data-ui-tw-reveal-value
-                                        data-ui-tw-reveal-masked="{{ $row[$column['masked_key'] ?? $column['key']] ?? $value ?? '-' }}"
-                                        data-ui-tw-reveal-full="{{ $row[$column['full_key'] ?? $column['key']] ?? $value ?? '-' }}">
-                                        {{ $row[$column['masked_key'] ?? $column['key']] ?? $value ?? '-' }}
+                                        data-ui-tw-reveal-masked="{{ $row[$column['masked_key'] ?? $column['key']] ?? ($value ?? '-') }}"
+                                        data-ui-tw-reveal-full="{{ $row[$column['full_key'] ?? $column['key']] ?? ($value ?? '-') }}">
+                                        {{ $row[$column['masked_key'] ?? $column['key']] ?? ($value ?? '-') }}
                                     </span>
                                 @else
                                     {{ $value ?? '-' }}

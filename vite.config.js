@@ -9,9 +9,6 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'Modules/Development/resources/assets/css/table-styles.css',
-                'Modules/UI/resources/assets/components/data-table.css',
-                'Modules/UI/resources/assets/components/data-table.js',
-                'Modules/UI/resources/assets/components/data-table-tw.js',
             ],
             refresh: [
                 'resources/views/**/*.blade.php',

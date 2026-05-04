@@ -40,9 +40,8 @@
             </div>
 
             <div class="dev-grid">
-                <x-ui::data-table :columns="$table['columns']" :rows="$table['rows']" :pagination="$pagination" edit-route="components.builder" />
-
-
+                <x-ui::data-table-tw :columns="$table['columns']" :rows="$table['rows']" :pagination="$pagination"
+                    edit-route="components.builder" />
             </div>
         </section>
     </div>

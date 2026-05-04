@@ -46,13 +46,6 @@
                 class="ui-form-control tw:w-full tw:px-3 tw:py-2 tw:text-sm tw:rounded-none tw:appearance-none">
         </div>
 
-        <div class="tw:space-y-1 hidden">
-            <label for="slug" class="ui-form-label tw:text-sm tw:font-medium">Slug</label>
-            <input id="slug" name="slug" type="text" value="{{ old('slug', $group['slug'] ?? '') }}"
-                placeholder="Ex.: coordenadores"
-                class="ui-form-control tw:w-full tw:px-3 tw:py-2 tw:text-sm tw:rounded-none tw:appearance-none">
-        </div>
-
         <div class="md:tw:col-span-2 tw:space-y-1">
             <label for="description" class="ui-form-label tw:text-sm tw:font-medium">Descrição</label>
             <textarea id="description" name="description" rows="3" placeholder="Descreva o objetivo deste grupo"

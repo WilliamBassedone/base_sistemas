@@ -15,7 +15,13 @@
     </div>
 
     <div class="tw:flex tw:items-center tw:gap-4">
-        <span class="tw:text-sm">ROOT</span>
-        <a href="#" class="tw:text-sm tw:text-[var(--panel-topbar-muted-text)] hover:tw:text-[var(--panel-topbar-text)]">Sair</a>
+        <span class="tw:text-sm">{{ auth()->user()?->name ?? 'Root' }}</span>
+        <form method="post" action="{{ route('logout') }}" data-turbo="false">
+            @csrf
+            <button type="submit"
+                class="tw:cursor-pointer tw:border-0 tw:bg-transparent tw:p-0 tw:text-sm tw:text-[var(--panel-topbar-muted-text)] hover:tw:text-[var(--panel-topbar-text)]">
+                Sair
+            </button>
+        </form>
     </div>
 </header>
